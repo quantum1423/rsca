@@ -1,0 +1,237 @@
+mod10 ABQDEFGHIJ
+# Sound changes to get Ludhisyn
+# rsca with Unicode hack
+
+mod11 _
+
+V = aiueoXQQIXQDJXQFQXQDFXQEGXQQFXQDHXQFAXQDDXQEDXQQGXQDIXQFBXQDEXQEEy
+front = XQQIeiXQEGXQFQ
+back = aXQDFXQDJou
+shrt = aeo
+C = kpthmlrwjbdgncXQFEXQEAXDEFXDFDXDIQsz
+
+crd	=	aiueo
+rsd =	eiyiu
+lng	=	XQQFXQDHXQFAXQDDXQED
+ulg =	XQQGXQDIXQFBXQDEXQEE
+
+fum = a_iiXQDHyXQFD
+oum = eeyei
+
+pm	=	bdptk
+sm	=	vXQEAbdg
+hm	=	ftfXQFEx
+
+lq	=	lrmn
+
+stop	=	bdgptk
+
+ass = ptbd
+
+* #[1 C][#1]
+
+[name vowel harmony
+* [front][]*[back] //
+* [back][]*[front]
+
+* h#
+* [C]j
+* [C][C]#
+* gg|mn|nm|cs
+
+# H-removal: intervocalic h disappears, VhC becomes VVC
+
+h 0 [V]__[V] 
+h [#1] [1 V]__
+
+# Coalescing of diphthongs
+
+* jj
+
+j		0		i__
+
+ja 		je 		[C]|[V]__ 
+ji 		i		[C]|[V]__ 
+ju		XQFQ		[C]|[V]__ 
+ja		je		[C]|[V]__ 
+ji		i		[C]|[V]__ 
+ju		y		[C]|[V]__ 
+je		e		[C]|[V]__ 
+jo		ju		[C]|[V]__ 
+jXQQI		e		[C]|[V]__ 
+jXQDJ		i		[C]|[V]__ 
+jXQFQ		XQFQ		[C]|[V]__ 
+jXQDF		ja		[C]|[V]__ 
+jXQEG		XQEG		[C]|[V]__ 
+
+aj 		ee 		__ //
+ej 		ee 		__ //
+oj 		XQEGXQEG 		__ //
+uj 		XQFQXQFQ 		__ //
+XQDFj 		XQDFXQDF 		__ //
+XQDJj 		XQFQXQFQ 		__ 
+
+# Final l becomes n
+
+l		n		__#
+
+# Medial s becomes h
+
+s		h		[V]__e|o|XQEG|XQDF
+
+# Noncardinals flip and become long. 
+# Already long become ultra-long and don't flip
+
+* [V][V][V]
+* XQQF|XQDH|XQFA|XQDD|XQED|XQQG|XQDI|XQFB|XQDE|XQEE|y|XQFD
+* [C][C][C]
+
+[ignore-conflicts
+XQEGXQEG		XQDE		__ //
+XQFQXQFQ		XQDI		__ //
+XQDJXQDJ		XQFB		__ //
+XQDFXQDF		XQQG		__ //
+XQQIXQQI		XQQG		__ //
+aa		XQQG		__ //
+ee		XQDE		__ //
+ii		XQDI		__ //
+oo		XQEE		__ //
+uu		XQFB		__
+
+XQEG		XQED		[V][]*__ //
+XQFQ		XQFA		[V][]*__ //
+XQQI		XQQF		[V][]*__ //
+XQDF		XQDD		[V][]*__ //
+XQDJ		XQDH		[V][]*__
+
+XQEG		e		__ //
+XQFQ		y		__ //
+XQQI		a		__ //
+XQDJ		u		__ //
+XQDF		a		__
+
+* XQQI|XQEG|XQDJ|XQDF|XQFQ
+
+# c becomes XQFE or t
+
+* XQFE
+c		XQFE		__[C]|#
+c		t		__
+* c
+
+# VC[aeo]CV -> VCCV where legal
+
+[shrt]	0		[V][C]__[C][V]
+
+# Fix problems with epithentic vowels and assimilation
+
+0		a		[C]__[C][C] 
+mn		mm		__ 
+nm		nn		__
+mm		m		#__
+nn		n		#__
+
+* XDEF|x|XQEA
+
+[ignore-conflicts
+kh		x		__ //
+th		XQFE		__ //
+dh		XQEA		__ //
+rh		XDEF		__ //
+mh		mm		__ //
+hh		x		__ //
+lh		ll		__ //
+nh		nn		__
+
+* [C][C][C]
+
+# Things to do with XQFE in clusters
+
+[ignore-conflicts
+XQFEr		XDEF		__ //
+XQFEt		tt		__ //
+XQFEp		pp		__
+
+XQFE		s		__[C]
+
+* [C][C][C]
+
+# Random changes
+
+z		XQEA		__ 
+
+# Nasal assimilation
+
+[ass]	n		n__
+
+# Mutation rules
+
+[pm]	[sm]	[V]__[V] //
+[pm]	[sm]	[lq]__	 //
+g		h		[V]__[V]
+
+# Degeminate stops and frics
+[#1]	0		__[1 stop]
+
+# Hard mutation
+
+[pm]	[hm]	__[stop]|# //
+g		x		__[stop]|#
+
+# Lose all final short vowels
+
+[crd]	0		[][]+__#
+
+# raise short vowels in closed sylls
+
+[crd]	[rsd]	__([C][C])|([C]#)
+
+# Collapse vowel length
+
+[lng]	[crd]	[][]__
+
+XQQF		XQDD		__ //
+XQFA		y		__ //
+XQED		XQQF		__ //
+XQDD		XQDH		__
+
+[ulg]	[lng]	__
+
+# Umlaut
+
+* a_i
+
+[crd]	[fum]	__[]/XQDH
+[crd]	[oum]	__[C][]*XQDH
+
+# shorten final longs
+XQDH		0		__#
+[lng]	[crd]	[][]+__[C]/#
+
+# Coalesce
+
+[lng]i	[ulg]	__
+
+0		j		i__[V]
+ji		XQDH		__
+i		0		__XQDH
+
+*XDFD
+
+st		XDFD		__
+
+# sdf
+
+* dh
+* th
+* rh
+* ch
+* ai
+
+x		ch		__ //
+a_i		ai		__ //
+XQEA		dh		__ //
+XQFE		th		__ //
+XDEF		rh		__
+
+* XDEF|XQEA|XQFE|a_i|x
