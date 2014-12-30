@@ -544,6 +544,7 @@ automaton *automaton::determinise(bool not_sporadic, int initial_form, bool resp
       int i=*ii%n, form=*ii/n;
       forfc<string> trigger_union(vector<string>(0), false);
       for(int j=q[i].t.size()-1; j>=0; j--) {
+        printf("%d\n", j);
         forfc<string> x = q[i].t[j]->trigger_set(), y, z;
         tr_new->clear();
         for(vector<forfc<string> >::iterator jj=tr_old->begin(); jj!=tr_old->end(); ++jj) {

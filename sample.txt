@@ -1,0 +1,26 @@
+# The constraints mentioned in the text are here given as commented-out
+# lines.  I also substituted    i 0 __i   for   ii i __   because the 
+# latter has a conflict.  
+
+V = aeiou
+C = ptcqbdgmnlrhs
+F = ie
+B = ou
+S = ptc
+Z = bdg
+
+# * ms#
+s 0 __#
+m 0 __#
+e 0 [V]r__#
+# * ii
+v 0 [V]__[V]
+u o __#
+gn nh __
+[S] [Z] [V]__[V]
+c i [F]__t
+c u [B]__t
+p 0 [V]__t
+# * iii
+i 0 __i
+e 0 [C]__r[V]

@@ -1,11 +1,12 @@
 %{
   #include <string.h>
+  #include <stdlib.h>
 
   #include "soundchange.h"
   #include "automaton.h"
   #include "soundchange.tab.h"
 
-  #define YY_USER_INIT line_text = (char *)malloc(line_size * sizeof(char));
+  #define YY_USER_INIT line_text = (char *)calloc(sizeof(char), 1 * line_size);
   #define YY_USER_ACTION take();
 %}
 
@@ -85,7 +86,7 @@ void take() {
   if (line_length >= line_size) {
     line_size += line_length + 1;
     c = line_text;
-    line_text = (char *)malloc(line_size * sizeof(char));
+    line_text = (char *)calloc(1 * line_size, sizeof(char));
     strcpy(line_text, c);
     free(c);
   }

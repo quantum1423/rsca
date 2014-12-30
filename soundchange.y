@@ -86,7 +86,7 @@ category_list:     /* nil */ { }
         | CLASSDEF phone_set newline category_list {
           category[string($1)] = $2;
           //printf("defined category %s\n", $1);
-          free($1);
+          ($1);
         } 
 ;
 
@@ -133,8 +133,8 @@ soundchange: parameter_list opt_ws soundchange_strands {
             }
           }
         
-          // to delete an automaton whose transitions aren't being used elsewhere, do this:
-          $3->free_transitions(); delete $3;
+          // to an automaton whose transitions aren't being used elsewhere, do this:
+          $3->free_transitions(); $3;
           changes.push_back(b);  
 
           /* Prepare the parameters of this change.  */
@@ -158,7 +158,7 @@ parameter_list: /* nil */ { $$ = new change_parameters(); }
           while (*c == ' ' || *c == '\t') c++;
           $$->name = string(c);
           $$->name.resize(1 + $$->name.find_last_not_of(" \t"));
-          delete $3;
+          //($3);
         }
 ;
 
@@ -168,7 +168,7 @@ soundchange_strands: soundchange_strand {
         | soundchange_strand PARALLEL opt_ws newline opt_ws soundchange_strands {
           $$ = $1;
           $$->alternate($6);
-          delete $6;
+          $6;
         }
 ;
 
@@ -198,13 +198,13 @@ soundchange_strand: renv_parts WS drenv_parts WS nil_or_envs {
           automaton *a0 = new automaton(1), *a;
           for(int i=$5->size()-1; i>=0; i--) {
             a0->catenate((*$5)[i]);
-            delete (*$5)[i];
+            (*$5)[i];
             if (i>=1) {
               a = glue((*$1)[i-1], (*$3)[i-1]);
-              delete (*$1)[i-1];
-              delete (*$3)[i-1];
+              (*$1)[i-1];
+              (*$3)[i-1];
               a0->catenate(a);
-              delete a;
+              a;
             }
           }
         
@@ -217,8 +217,8 @@ soundchange_strand: renv_parts WS drenv_parts WS nil_or_envs {
             $$->display();
           }
         
-          // to delete an automaton whose transitions aren't being used elsewhere, do this:
-          a0->free_transitions(); delete a0;
+          // to an automaton whose transitions aren't being used elsewhere, do this:
+          a0->free_transitions(); a0;
 
           split_category.clear();
 
@@ -240,7 +240,7 @@ soundchange_strand: renv_parts WS drenv_parts WS nil_or_envs {
             $$->display();
           }
         
-          $3->free_transitions(); delete $3;
+          $3->free_transitions(); $3;
         
           split_category.clear();
         
@@ -280,8 +280,8 @@ renv_part: /* nil */ {
           $$ = $2;
           
           $$->push_back(c->q[0].t[0]);
-          free(c);
-          free($1);
+          (c);
+          ($1);
         }
 ;
 
@@ -310,7 +310,7 @@ drenv_part: /* nil */ {
           else {
             $$->push_back(new spl_transition(string(u0), bun));
           }
-          free($1);
+          ($1);
         }
 ;
 
@@ -331,10 +331,10 @@ nil_or_env: /* nil */                           { $$ = new automaton(1); }
 env_part: phone                                 { $$ = new automaton($1); }
         | CLASSREF                              {
           $$ = interpret_classref($1);
-          free($1);
+          ($1);
         }
-        | env_part '|' env_part                 { $$ = $1; $$->alternate($3); delete $3; }
-        | env_part env_part %prec CATENATION    { $$ = $1; $$->catenate($2); delete $2; }
+        | env_part '|' env_part                 { $$ = $1; $$->alternate($3); $3; }
+        | env_part env_part %prec CATENATION    { $$ = $1; $$->catenate($2); $2; }
         | env_part '*'                          { $$->kleene_star(); }
         | env_part '+'                          { $$->kleene_plus(); }
         | env_part '/'                          { $$->optionalize(); }
@@ -351,14 +351,14 @@ phone: 	  CPHONE		{
           strcpy(a, $1);
           a[1+strlen(a)] = '\0'; a[strlen(a)] = $2;
           strcat(a, $3);
-          free($1); free($3);
+          ($1); ($3);
           $$ = a;
         }
         | phone MOD10		{
           char *a = (char *)malloc(2+strlen($1));
           strcpy(a, $1);
           a[1+strlen(a)] = '\0'; a[strlen(a)] = $2;
-          free($1);
+          ($1);
           $$ = a;
         }
         | MOD02 phone phone	{
@@ -366,14 +366,14 @@ phone: 	  CPHONE		{
           a[0] = $1;
           strcpy(a+1, $2);
           strcat(a, $3);
-          free($2); free($3);
+          ($2); ($3);
           $$ = a;  
         }
         | MOD01 phone		{
           char *a = (char *)malloc(2+strlen($2));
           a[0] = $1;
           strcpy(a+1, $2);
-          free($2);
+          ($2);
           $$ = a;
         }
 /*        | phone phone MOD20	{
@@ -381,7 +381,7 @@ phone: 	  CPHONE		{
           strcpy(a, $1);
           strcat(a, $2);
           a[1+strlen(a)] = '\0'; a[strlen(a)] = $3;
-          free($1); free($2);
+          ($1); ($2);
           $$ = a;
         }*/
 ;
@@ -484,7 +484,7 @@ automaton *interpret_classref(char *p, int group) {
       else
         s = string(q0);
       automaton *a = new automaton(new spl_transition(s, bun));
-      free(q);
+      (q);
       return a;
     }
     else if (*q1 == '^') {
@@ -507,7 +507,7 @@ automaton *interpret_classref(char *p, int group) {
     s.intersect(t);
   }
 
-  free(q);
+  (q);
   return new automaton(&s.s, s.pos, group);
 }
 
@@ -550,8 +550,8 @@ automaton *glue(vector<transition *> *r, vector<transition *> *dr) {
 
           automaton *b = new automaton(v, w);
           a->catenate(b);
-          delete b;
-          delete w;
+          b;
+          w;
           break;
         } // if kind of ii
       /* If we found one, we've now processed everything up to it; take note of this.  */
@@ -628,7 +628,7 @@ void glue1(vector<transition *> *r, vector<transition *> *dr, automaton *a,
     
     automaton *b = new automaton(t);
     a->catenate(b);
-    delete b;
+    b;
   }
 }
 
@@ -866,9 +866,9 @@ automaton *split(automaton *a) {
     }
 
   for(int i=groups.size()-1; i>=0; i--) {
-    delete splittends[i];
-    delete ins[i];
-    delete outs[i];
+    splittends[i];
+    ins[i];
+    outs[i];
   }
       
   return b; 
